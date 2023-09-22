@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 sendNotification('started', 'team@example.com')
-                
+
                 git branch: 'notifications',
                 url: 'https://github.com/marcioassuncao/DO400-apps'
             }
@@ -17,8 +17,14 @@ pipeline {
                 }
             }
         }
-    }
-}
+    }//stages
+
+    post {
+        always {
+            sendNotification('finished', 'team@example.com')
+        }
+    }//post
+}//pipeline
 
 void sendNotification(String action, String email) {
     mail to: "${email}",
